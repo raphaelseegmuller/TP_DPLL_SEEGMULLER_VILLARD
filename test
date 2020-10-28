@@ -1,1 +1,10 @@
 salut
+
+import clause
+
+class CNF(clause):
+
+    def __init__(self, clauses):
+        #clauses est une liste de liste
+        for i in range(len(clauses)):
+            super().__init__(clauses[i])
