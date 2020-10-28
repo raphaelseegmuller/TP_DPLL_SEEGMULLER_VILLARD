@@ -6,3 +6,20 @@ class CNF():
     def __init__(self, clauses: list[clause]):
         #clauses est une liste de clauses
         self.clauses = clauses
+
+
+pour toi Nono <3 :
+
+    @property
+    def Lclauses(self):
+        return self.__Lcauses
+
+    @Lclauses.setter
+    def Lclauses(self, L):
+        if len(L)!= 0:
+            test = True
+            for cl in L:
+                if type(cl) != 'clause':
+                    test = False
+            if test == True:
+                self.Lclauses = L
