@@ -3,6 +3,8 @@ __Filename__ = "CNF.py"
 __Creationdate__ = "23/10/20"
 
 
+# Ne marche pas, je m'en occupe...
+
 class CNF():
 
     def __init__(self, clauses):
