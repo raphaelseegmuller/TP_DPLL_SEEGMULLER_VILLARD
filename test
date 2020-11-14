@@ -1,19 +1,4 @@
     @staticmethod
-    def max_apperance(ec, el, litt):
-        m = 0
-        res = 0
-        for l in range(len(el)):
-            counter = 0
-            if el[l] == 0:
-                for c in litt[l]:
-                    if ec[c] == 0:
-                        counter += 1
-            if counter >= m:
-                m = counter
-                res = l
-        return res
-
-    @staticmethod
     def heuristic(cl, litt, ec, el, choice):
         """
         Choisit un littéral pour avancer dans DPLL.
@@ -44,7 +29,7 @@
             res = 0
             for l in range(len(el)):
                 counter = 0
-                if el[l] == 0:
+                if el[l] == 0 and el[int((l + (len(el) / 2)) % len(el))] != 1:
                     for c in litt[l]:
                         if ec[c] == 0:
                             counter += 1
