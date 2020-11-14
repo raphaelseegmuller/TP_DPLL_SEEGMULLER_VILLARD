@@ -50,11 +50,22 @@ def dames(n):
             G_CNF = CNF([new_cl])
         else:
             G_CNF.addClause(new_cl)
+    for j in range(n):
+        new_cl = clause([])
+        for i in range(n):
+            new_cl.addLitteral(litteral("D" + str(j) + str(i)))
+        G_CNF.addClause(new_cl)
     print("Etape 1 : ", G_CNF)
     for i in range(n):
         for t in combinaison(n):
             new_cl = clause([])
             for j in t:
+                new_cl.addLitteral(litteral("-D" + str(j) + str(i)))
+            G_CNF.addClause(new_cl)
+    for j in range(n):
+        for t in combinaison(n):
+            new_cl = clause([])
+            for i in t:
                 new_cl.addLitteral(litteral("-D" + str(j) + str(i)))
             G_CNF.addClause(new_cl)
     print("Etape 2 : ", G_CNF)
