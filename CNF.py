@@ -5,6 +5,7 @@ __Creationdate__ = "23/10/20"
 from clause import *
 from copy import copy
 from time import time
+import math
 
 
 class CNF():
@@ -233,37 +234,21 @@ class CNF():
         return True
 
     @staticmethod
-    def heuristic(cl, litt, ec, el, choice):
+    def heuristic(litt, ec, el, choice):
         """
         Choisit un littéral pour avancer dans DPLL.
-        :param cl: ensemble de clauses
         :param litt: ensemble de littéraux
         :param ec: liste des états des clauses
         :param el: liste des états des littéraux
         :param choice: choix de l'heuristique
         :return: indice du littéral choisit
         """
-        '''
-        # Clause unitaire ???
-        for i in range(len(ec)):
-            if ec[i] == 0:
-                litt_list = cl[i]
-                unwanted = []
-                for j in litt_list:
-                    if el[int((j + (len(el) / 2)) % len(el))] == 1:
-                        unwanted += [j]
-                for k in unwanted:
-                    if k in litt_list:
-                        litt_list = litt_list.remove(k)
-                if len(litt_list) == 1:
-                    return litt_list[0]
-        '''
         # Heuristiques
-        if choice == "first_satisfy" or choice == "first_fail":
+        if choice == "first_satisfy":
             # Obtention du littéral ayant le plus d'occurences
             m = 0
             res = 0
-            for l in range(len(el)):
+            for l in range(math.ceil(len(el)/2)):
                 counter = 0
                 if el[l] == 0 and el[int((l + (len(el) / 2)) % len(el))] != 1:
                     for c in litt[l]:
@@ -272,10 +257,20 @@ class CNF():
                 if counter >= m:
                     m = counter
                     res = l
-            if choice == "first_satisfy":
-                return res
-            else:
-                return int((res + (len(el) / 2)) % len(el))
+            return res
+        elif choice == "first_fail":
+            m = 0
+            res = math.ceil(len(el)/2)
+            for l in range(math.ceil(len(el)/2), len(el)):
+                counter = 0
+                if el[l] == 0 and el[int((l + (len(el) / 2)) % len(el))] != 1:
+                    for c in litt[l]:
+                        if ec[c] == 0:
+                            counter += 1
+                if counter >= m:
+                    m = counter
+                    res = l
+            return res
         else:
             for i in range(len(el)):
                 if el[i] == 0:
