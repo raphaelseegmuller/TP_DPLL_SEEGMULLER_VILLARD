@@ -35,6 +35,7 @@ def read_CNF(file):
         for litt in litt_list:
             new_cl.addLitteral(litteral(litt))
         res.addClause(new_cl)
+    f.close()
     return res
 
 
