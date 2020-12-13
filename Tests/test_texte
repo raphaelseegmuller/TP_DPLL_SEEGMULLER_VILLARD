@@ -1,0 +1,17 @@
+from CNF import CNF
+from clause import clause
+from litteral import litteral
+from traitement_fichier import write_CNF
+
+A = CNF([clause([litteral("-a"), litteral("b")]), clause([litteral("-a"), litteral("c")]), clause([litteral("b"), litteral("e")])])
+
+# litt = [[], [0, 2], [1], [2], [0, 1], [], [], []]
+# ec = [0, 0, 0]
+# el = [0, 0, 0, 0, 0, 0, 0, 0]
+#
+# print(A.heuristic(litt, ec, el, "first_fail"))
+
+print(A)
+print(str(A))
+print(type(str(A)))
+print(write_CNF(A, "test2.txt"))
