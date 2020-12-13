@@ -7,61 +7,59 @@ from CNF import *
 from fonctions import *
 from time import time
 
-n_max = 9
+# ---------------------------------------------------------------------
+n_min = 0
+n_max = 8
 
+Time = False  # affichage du temps pour chaque exécution de DPLL
+graph = 'temps'  # graph du temps en fonction de n ou du nombre de noeuds en fonction de n
+save = True  # sauvegarde de la figure
+# ----------------------------------------------------------------------
+
+generateurs = [dames, pigeons]
+heuristiques = ["first_satisfy", "first_fail", None]
+ans = 4
 debut_total = time()
+n = [i for i in range(n_min, n_max+1)]
 
-val_n = [i for i in range(n_max)]
+for gen in generateurs:
+    if gen == dames:
+        gen_str = 'dames'
+    elif gen == pigeons:
+        gen_str = 'pigeons'
+    print('-----', gen_str)
+    for heur in heuristiques:
+        print('---', heur)
+        temps = []
+        noeuds = []
+        for i in range(n_min, n_max+1):
+            print(i)
+            debut = time()
+            noeuds += [gen(i).DPLL(ans=ans, choice=heur, Time=Time)]
+            fin = time()
+            temps += [fin - debut]
+        if graph == 'temps':
+            if heur == None:
+                plt.plot(n, temps, label='sans heuristique')
+            else:
+                plt.plot(n, temps, label=heur)
+        if graph == 'noeuds':
+            if heur == None:
+                plt.plot(n, noeuds, label='sans heuristique')
+            else:
+                plt.plot(n, noeuds, label=heur)
 
-val_temps_dames_fs = []
-for i in range(n_max):
-    print(i)
-    debut = time()
-    dames(i).DPLL(ans=3, choice="first_satisfy", Time=True)
-    fin = time()
-    val_temps_dames_fs += [fin - debut]
+    plt.xlabel('n')
+    plt.ylabel(graph)
+    plt.grid()
+    plt.legend()
 
-val_temps_dames_ff = []
-for i in range(n_max):
-    print(i)
-    debut = time()
-    dames(i).DPLL(ans=3, choice="first_fail", Time=True)
-    fin = time()
-    val_temps_dames_ff += [fin - debut]
+    plt.title(graph + ' de l\'algorithme DPLL pour le problème des ' + gen_str)
+    if save:
+        plt.savefig('DPLL_' + graph + '_' + gen_str)
 
-val_temps_pigeons_fs = []
-for i in range(n_max):
-    print(i)
-    debut = time()
-    pigeons(i).DPLL(ans=3, choice="first_satisfy", Time=True)
-    fin = time()
-    val_temps_pigeons_fs += [fin - debut]
-
-val_temps_pigeons_ff = []
-for i in range(n_max):
-    print(i)
-    debut = time()
-    pigeons(i).DPLL(ans=3, choice="first_fail", Time=True)
-    fin = time()
-    val_temps_pigeons_ff += [fin - debut]
-
-plt.plot(val_n, val_temps_dames_fs, label='first satisfy')
-plt.plot(val_n, val_temps_dames_ff, label='first fail')
-plt.title('temps de l\'algorithme DPLL pour le problème des dames')
-plt.xlabel('n')
-plt.ylabel('temps')
-plt.legend()
-plt.savefig('DPLL_dames')
-plt.show()
-
-plt.plot(val_n, val_temps_pigeons_fs, label='first satisfy')
-plt.plot(val_n, val_temps_pigeons_ff, label='first fail')
-plt.title('temps de l\'algorithme DPLL pour le problème des pigeons')
-plt.xlabel('n')
-plt.ylabel('temps')
-plt.legend()
-plt.savefig('DPLL_pigeons')
-plt.show()
+    plt.show()
 
 fin_total = time()
-print('temps total = ', (fin_total - debut_total)/60, ' minutes')
+print("temps total : ", (fin_total - debut_total) / 60, "min")
+
