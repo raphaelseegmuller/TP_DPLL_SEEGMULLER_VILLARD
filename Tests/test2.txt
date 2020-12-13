@@ -1,0 +1,1 @@
+(-a ou b) et (-a ou c) et (b ou e)
